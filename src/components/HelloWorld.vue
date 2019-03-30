@@ -1,9 +1,9 @@
 <template>
-  <div class="hello">
-    <select class="select" @click="showSelectBox">
+  <div class="hello" @click="hideSelectBox">
+    <select class="select" @click.stop="showSelectBox">
       <option class="option" selected>{{ select }}</option>
     </select>
-    <div class="selectBox selectBoxShow" v-show="selectShowAble">
+    <div class="selectBox selectBoxShow" v-show="selectShowAble" @click.stop>
       <div class="selectBoxHeader">
         <div
           :class="{head: true,headColor:pullGetOptions.length === item }"
@@ -335,6 +335,10 @@ export default {
     getOptionsList (arr) {
       this.getOptions = arr
     },
+    // 点击空白处隐藏盒子
+    hideSelectBox () {
+      this.selectShowAble = false
+    },
     // 显现下拉框
     showSelectBox () {
       this.selectShowAble = !this.selectShowAble
@@ -371,6 +375,7 @@ export default {
       this.selectArr.splice(item - 1)
     }
   },
+  // 监听数组变化
   watch: {
     selectArr (newVal) {
       this.select = newVal.filter(item => item !== '').join('/')
@@ -393,7 +398,7 @@ ul {
   li {
     height: 30px;
     line-height: 30px;
-    margin-left: 10px;
+    margin: 20px;
     font-size: 14px;
     border-bottom: 1px solid #000;
   }
@@ -407,7 +412,7 @@ ul {
 }
 .selectBox {
   width: 300px;
-  height: 500px;
+  padding-bottom: 20px;
   background-color: red;
   z-index: 999;
   .selectBoxHeader {
